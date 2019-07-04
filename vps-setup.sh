@@ -17,8 +17,11 @@ ssh -t root@"$1" 'passwd; useradd --create-home '"$2"';'\
 # Generating SSH keys, pushing it to new user and adding it locally.
 ssh-keygen -f "$3"
 ssh-copy-id -i "$3".pub "$2"@"$1"
-
-
+echo "Adding key to local ~/.ssh/config"
+echo 'Host '"$1"'
+  User '"$2"'
+  IdentityFile '"$3"'
+' | sudo tee -a ~/.ssh/config
 
 # Connecting using new key, setup SSH on the remote and add local entry.
 
