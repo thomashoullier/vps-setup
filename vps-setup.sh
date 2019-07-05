@@ -10,7 +10,7 @@ echo "Enter:
   * Current root password
   * New root password
   * New user password"
-ssh -t root@"$1" 'passwd; useradd --create-home '"$2"';'\
+ssh -t root@"$1" 'passwd; useradd '"$2"';'\
 'usermod -aG sudo '"$2"'; passwd '"$2"'; apt update; apt upgrade;'\
 'apt autoremove'
 
