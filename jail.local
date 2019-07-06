@@ -1,0 +1,6 @@
+[sshd]
+enabled = true
+port = XXXXX
+logpath = /var/log/auth.log
+maxretry = 15
+bantime = 86400
