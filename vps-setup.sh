@@ -35,3 +35,7 @@ echo 'Host '"$1"'
   IdentityFile '"$3"'
   Port '"$4"'
 ' | sudo tee -a ~/.ssh/config
+
+# Now connect one last time using the new key and finish configuration
+echo "Connecting using new key:"
+ssh -t "$2"@"$1" 'sudo ufw allow '"$4"'; sudo ufw enable;'
