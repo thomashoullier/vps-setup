@@ -40,9 +40,14 @@ echo 'Host '"$1"'
 fail2banconf=$(cat jail.local)
 #     Input correct port
 fail2banconf=$(echo "$fail2banconf" | sed '/port = XXXXX/c\port = '"$4"'')
+uu=$(cat 50unattended-upgrades)
+au=$(cat 20auto-upgrades)
+
 echo "Connecting using new key:"
 ssh -t "$2"@"$1" 'sudo ufw allow '"$4"'; sudo ufw enable;'\
 'sudo apt install fail2ban;'\
 'echo "'"$fail2banconf"'" | sudo tee /etc/fail2ban/jail.d/jail.local;'\
-'sudo systemctl restart fail2ban'
+'sudo systemctl restart fail2ban;'\
+'echo "'"$uu"'" | sudo tee /etc/apt/apt.conf.d/50unattended-upgrades;'\
+'echo "'"$au"'" | sudo tee /etc/apt/apt.conf.d/20auto-upgrades'
 
