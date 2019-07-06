@@ -22,9 +22,14 @@ ssh-copy-id -i "$3".pub "$2"@"$1"
 # Loading the local SSH configuration file.
 sshconfig=$(cat sshd_config)
 #     Input correct Port
-sshconfig_remote=$(echo "$sshconfig" | sed '/Port 0/c\Port '"$4"'')
+sshconfig=$(echo "$sshconfig" | sed '/Port 0/c\Port '"$4"'')
 
-echo "Adding key to local ~/.ssh/config"
+# Put SSH configuration on remote
+echo "Connecting as root to change the SSH configuration:"
+ssh -t root@"$1" 'printf "%s" "'"$sshconfig"'" > /etc/ssh/sshd_config;'\
+'systemctl reload sshd'
+
+echo "Adding key to local ~/.ssh/config, enter local sudo password:"
 echo 'Host '"$1"'
   User '"$2"'
   IdentityFile '"$3"'
